@@ -8,57 +8,42 @@ import (
 
 func Task2() {
 	file, err := os.Open("input")
-
 	if err != nil {
-        panic(err)
-    }
-
-
+		panic(err)
+	}
 	defer file.Close()
 
 	reader := bufio.NewScanner(file)
 
-	crossWord := []string{}
-	solutions := [][][]int{}
-	const searchTerm = "XMAS"
+	var rows = []string{}
+	count := 0
 
 	for reader.Scan() {
 		var line = reader.Text()
-		crossWord = append(crossWord, line)
+		rows = append(rows, line)
 	}
-	
-	for i := range(crossWord) {
-		for j := range(crossWord[i]) {
-			letter := crossWord[i][j]
-			if letter == 'X' {
-				for _, initialDirection := range getDirections() {
-					currentWord := [][2]int{}
-					currentLocation := [2]int{j, i}
-					currentWord = append(currentWord, currentLocation)
 
-					for len(currentWord) < len(searchTerm) {
-						nextLetter, newDirection := findLetter(crossWord, currentLocation, searchTerm[len(currentWord)], initialDirection)
+	for i := 1; i < len(rows)-1; i++ {
+		for j := 1; j < len(rows[i])-1; j++ {
+			if rows[i][j] == 'A' {
+				upperLeft := rows[i-1][j-1]
+				lowerRight := rows[i+1][j+1]
+				upperRight := rows[i-1][j+1]
+				lowerLeft := rows[i+1][j-1]
 
-						if nextLetter != [2]int{-1, -1} {
-							currentWord = append(currentWord, nextLetter)
-							currentLocation = nextLetter
-							initialDirection = newDirection
-						} else {
-							break
-						}
-					}
+				topLeftToBottomRight := string(upperLeft) + string(rows[i][j]) + string(lowerRight)
+				bottomLeftToTopRight := string(lowerLeft) + string(rows[i][j]) + string(upperRight)
 
-					if len(currentWord) == len(searchTerm) {
-						convertedWord := make([][]int, len(currentWord))
-						for k, v := range currentWord {
-							convertedWord[k] = v[:]
-						}
-						solutions = append(solutions, convertedWord)
-					}
+				if checkIfValidElements(topLeftToBottomRight, bottomLeftToTopRight) {
+					count++
 				}
 			}
 		}
 	}
 
-	fmt.Println("Total solutions found:", len(solutions))
+	fmt.Println("Results: ", count)
+}
+
+func checkIfValidElements(inputOne string, inputTwo string) bool {
+	return (inputOne == "MAS" || inputOne == "SAM") && (inputTwo == "MAS" || inputTwo == "SAM")
 }
