@@ -11,7 +11,6 @@ func main() {
 	Task2()
 }
 
-// Parse an update line into a slice of integers
 func parseUpdate(line string) []int {
 	parts := strings.Split(line, ",")
 	result := make([]int, 0, len(parts))
@@ -25,7 +24,6 @@ func parseUpdate(line string) []int {
 	return result
 }
 
-// Validate if an update follows the rules
 func isUpdateValid(update []int, rules map[int][]int) bool {
 	pageOrder := make(map[int]int)
 	for i, page := range update {
@@ -45,7 +43,6 @@ func isUpdateValid(update []int, rules map[int][]int) bool {
 	return true
 }
 
-// Get the middle page of an update
 func getMiddlePage(update []int) int {
 	return update[len(update)/2]
 }

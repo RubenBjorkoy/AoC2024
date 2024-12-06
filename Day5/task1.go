@@ -17,7 +17,6 @@ func Task1() {
 
 	scanner := bufio.NewScanner(file)
 
-	// Parse the input rules
 	rules := make(map[int][]int)
 	var updates [][]int
 	isReadingRules := true
@@ -46,7 +45,6 @@ func Task1() {
 		}
 	}
 
-	// Check updates and calculate the sum of middle pages
 	sumOfMiddlePages := 0
 	for _, update := range updates {
 		if isUpdateValid(update, rules) {
