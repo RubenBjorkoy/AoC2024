@@ -10,7 +10,7 @@ import (
 const fileLength int = 1000
 
 func main() {
-    file, err := os.Open("input")
+    file, err := os.Open("HJinput.txt")
     defer file.Close()
 
     r := bufio.NewReader(file)
